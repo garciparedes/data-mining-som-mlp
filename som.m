@@ -11,9 +11,9 @@
 ################################################################################
 
 inputFile = dlmread('digitos.entrena.normalizados.txt');
-neuronsY = 6;
-neuronsX = neuronsY * 2;
-
+neuronsY = 8;
+neuronsX = 12;
+times = 20;
 
 
 # Input Normalization
@@ -44,7 +44,7 @@ RNA = zeros(neuronsX, neuronsY, inputDimens);
 for i = 1:neuronsX;
   for j = 1:neuronsY;
     for k = 1:inputDimens;
-      RNA(i,j,k) = rand/2; 
+      RNA(i,j,k) = rand -0.5; 
     endfor;
     RNA(i,j,:) = RNA(i,j,:) ./ sqrt(sum(RNA(i,j,:).^2));
   endfor;
@@ -54,43 +54,59 @@ endfor;
 
 # SOM Unsupervised Learning
 ################################################################################
-#
-for e = 1:1;
-  result = zeros(neuronsX, neuronsY);
-  for i = 1:neuronsX;
-    for j = 1:neuronsY;
-      suma = 0;
-      for k = 1:inputDimens;
-        suma = suma + (input(e,k) - RNA(i,j,k))^2;
-      endfor;
-      result(i,j) = sqrt(suma);
-    endfor;
-  endfor;
-  result
-  [M,I] = min(result(:));
-  [I_row, I_col] = ind2sub(size(result),I);
-  
-  I_row
-  I_col
+xRadius = floor(neuronsX /2);
+yRadius = floor(neuronsY /2);
 
-  for x = I_row - floor(neuronsX /2)+1 : I_row + floor(neuronsX /2)-1;
-    
-    if (x < 1)
-      x = x + neuronsX;
-    elseif(x > neuronsX)
-      x = x - neuronsX;
-    end
-    x
-    
-  endfor;
+
+for t = 1:times;
+  for e = 1:inputLength;
   
-  for y = I_col - floor(neuronsY /2)+1 : I_col + floor(neuronsY /2)-1;
-    if (y < 1)
-      y = y + neuronsY;
-    elseif(y > neuronsY)
-      y = y - neuronsY;
-    end
-    y
-  endfor;
+    # Get Distance from input to neuron
+    result = zeros(neuronsX, neuronsY);
+    for i = 1:neuronsX;
+      for j = 1:neuronsY;
+      
+      
+        result(i,j) = 0;
+        for k = 1:inputDimens;
+          result(i,j) = result(i,j) + input(e,k)*RNA(i,j,k);
+        endfor;
+      
+      
+      endfor;
+    endfor;
+    [M,I] = max(result(:));
+    [xWin, yWin] = ind2sub(size(result),I);
     
+    
+    # Update weights of neurons
+    for x = xWin - xRadius+1 : xWin + xRadius-1;
+      if (x < 1)
+        x = x + neuronsX;
+      elseif(x > neuronsX)
+        x = x - neuronsX;
+      end
+      
+      for y = yWin - yRadius+1 : yWin + yRadius-1;
+        if (y < 1)
+          y = y + neuronsY;
+        elseif(y > neuronsY)
+          y = y - neuronsY;
+        end
+     
+     
+        RNA(x,y,:) = (RNA(x,y,:) + (25/(1+t/inputLength)) * input(e,k)) ./ sqrt(sum((RNA(x,y,:) + (25/(1+t/inputLength)) * input(e,k)).^2));
+                             
+                 
+                 
+      endfor;   
+    endfor;  
+    if (xRadius > 1)
+      xRadius = xRadius - 1;
+    endif;  
+    if (yRadius > 1)
+      yRadius = yRadius - 1;
+    endif;  
+  endfor;
 endfor;
+
