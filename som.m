@@ -11,9 +11,9 @@ clear all
 ################################################################################
 
 inputFile = dlmread('digitos.entrena.normalizados.txt');
-neuronsY = 8;
-neuronsX = 12;
-times = 50;
+neuronsX = 8;
+neuronsY = 12;
+seasons = 50;
 alphaZero = 25;
 
 # Input Normalization
@@ -28,8 +28,6 @@ input = input ./ sqrt(sum(input.^2,2));
 inputLength = size(input,1);
 inputDimens = size(input,2);
 
-#inputLength = 10;
-
 
 expectedOutput = inputFile;
 expectedOutput(:,[11:size(expectedOutput,2)]) = [];
@@ -39,16 +37,12 @@ expectedOutput([1:2:size(expectedOutput,1)],:) = [];
 
 # SOM Inicialization
 ################################################################################
+SOM_neurons = zeros(neuronsX, neuronsY);
+SOM_neurons(:) = 1 : (neuronsX * neuronsY);
 
-RNA = zeros(neuronsX, neuronsY, inputDimens);
-for i = 1:neuronsX;
-    for j = 1:neuronsY;
-        for k = 1:inputDimens;
-            RNA(i,j,k) = rand -0.5;
-        endfor;
-        norm = sqrt(sum(RNA(i,j,:).^2));
-        RNA(i,j,:) = RNA(i,j,:) ./ norm;
-    endfor;
+SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
+for i = 1 : (neuronsX * neuronsY);
+    SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
 endfor;
 
 
@@ -57,29 +51,20 @@ endfor;
 ################################################################################
 radius = min(floor(neuronsX /2), floor(neuronsY /2));
 
-for t = 1:times;
+for t = 1:seasons;
     for e = 1:inputLength;
 
         # Get Distance from input to neuron
-        distances = zeros(neuronsX, neuronsY);
-        for i = 1:neuronsX;
-            for j = 1:neuronsY;
-
-                
-                distances(i,j) = 0;
-                for k = 1:inputDimens;
-                    distances(i,j) = distances(i,j) + (input(e,k) * RNA(i,j,k));
-                endfor;
-                
-            endfor;
+        distances = zeros(neuronsX * neuronsY,1);
+        for i = 1 : (neuronsX * neuronsY);
+            distances(i) = sum(input(e,:) .* SOM_weights(i, :));
         endfor;
-        [M,I] = max(distances(:));
-        [xWin, yWin] = ind2sub(size(distances),I);
-        #[e, xWin, yWin]
-        #distances
         
         
-        # Update weights of neurons
+        [M,I] = max(abs(distances(:))); 
+        [xWin,yWin] = find(SOM_neurons == I);
+        
+        iterator = [];
         for x = (xWin - radius) : (xWin + radius);
             if (x < 1)
                 x = x + neuronsX;
@@ -93,19 +78,18 @@ for t = 1:times;
                 elseif(y > neuronsY)
                     y = y - neuronsY;
                 end
-                
-                temp = zeros(inputDimens);
-                for k = 1 : inputDimens;
-                    temp(k) = (RNA(x,y,k) + (alphaZero/(1+t/inputLength)) .* input(e,k));
-                endfor;
-                
-                norm = sqrt(sum(temp(:).^2));
-                for k = 1 : inputDimens;
-                    RNA(x,y,k) = temp(k) ./ norm;
-                endfor;
-
+                iterator = [iterator SOM_neurons(x,y)];
             endfor;
         endfor;
+        
+        
+        iterator
+        for i = iterator;
+            temp = SOM_weights(i,:) + ((alphaZero/(1+t/inputLength)) .* input(e,:));
+            SOM_weights(i,:) = temp ./ norm(temp);            
+        endfor;
+
+
         if (radius > 0)
             radius = radius - 1;
         endif;
@@ -116,22 +100,17 @@ endfor;
 
 # SOM Supervised Learning
 ################################################################################
-labels = zeros(neuronsX, neuronsY);
+labels = zeros(neuronsX,  neuronsY);
 
-for i = 1:neuronsX;
-    for j = 1:neuronsY;
-        
-        dist = zeros(1,inputLength);
-        for e = 1:inputLength;
-       
-            for k = 1:inputDimens;
-                dist(e) = dist(e) + abs(input(e,k) * RNA(i,j,k));
-            endfor;
-            
-            [M,I] = min(dist);
-            [M,I] = max(expectedOutput(I,:));
-            labels(i,j) = I;
-        endfor;
+for i = 1: neuronsX * neuronsY;
+
+    dist = zeros(1,inputLength);
+    for e = 1:inputLength;
+        dist(e) = sum(abs(input(e,:) .* SOM_weights(i,:)));
     endfor;
-endfor; 
+    [M,I] = max(dist);
+    [M,I] = max(expectedOutput(I,:));
+
+    labels(i) = I;
+endfor;
 labels
