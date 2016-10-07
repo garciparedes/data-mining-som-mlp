@@ -11,8 +11,8 @@ clear all
 ################################################################################
 
 inputFile = dlmread('digitos.entrena.normalizados.txt');
-neuronsX = 8;
-neuronsY = 12;
+neuronsX = 10;
+neuronsY = 20;
 seasons = 50;
 alphaZero = 25;
 
@@ -116,30 +116,6 @@ labels
 
 
 
-
-
-
-# SOM Test
-################################################################################
-
-#{
-inputFile = dlmread('digitos.test.normalizados.txt');
-
-input = inputFile;
-input([2:2:size(input,1)],:) = [];
-input = [input ones(size(input, 1), 1)];
-input = input ./ sqrt(sum(input.^2,2));
-
-
-inputLength = size(input,1);
-inputDimens = size(input,2);
-
-
-expectedOutput = inputFile;
-expectedOutput(:,[11:size(expectedOutput,2)]) = [];
-expectedOutput([1:2:size(expectedOutput,1)],:) = [];
-#}
-
 success = 0;
 for e = 1:inputLength;
 
@@ -162,4 +138,44 @@ endfor;
 successRate = (success/inputLength)
 
 
+# SOM Test
+################################################################################
 
+
+inputFile = dlmread('digitos.test.normalizados.txt');
+
+input = inputFile;
+input([2:2:size(input,1)],:) = [];
+input = [input ones(size(input, 1), 1)];
+input = input ./ sqrt(sum(input.^2,2));
+
+
+inputLength = size(input,1);
+inputDimens = size(input,2);
+
+
+expectedOutput = inputFile;
+expectedOutput(:,[11:size(expectedOutput,2)]) = [];
+expectedOutput([1:2:size(expectedOutput,1)],:) = [];
+
+
+success = 0;
+for e = 1:inputLength;
+
+    # Get Distance from input to neuron
+    distances = zeros(neuronsX * neuronsY,1);
+    for i = 1 : (neuronsX * neuronsY);
+        distances(i) = sum(input(e,:) .* SOM_weights(i, :));
+    endfor;
+    
+    
+    [M,I] = max(abs(distances(:))); 
+    [xWin,yWin] = find(SOM_neurons == I);
+    
+    [M,I] = max(expectedOutput(e,:));
+
+    if( I == labels(xWin, yWin));
+        success = success +1;
+    endif;
+endfor;
+successRate = (success/inputLength)
