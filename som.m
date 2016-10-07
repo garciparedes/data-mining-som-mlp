@@ -28,13 +28,12 @@ input = input ./ sqrt(sum(input.^2,2));
 inputLength = size(input,1);
 inputDimens = size(input,2);
 
-inputLength = 10;
+#inputLength = 10;
 
-#{
+
 expectedOutput = inputFile;
 expectedOutput(:,[11:size(expectedOutput,2)]) = [];
 expectedOutput([1:2:size(expectedOutput,1)],:) = [];
-#}
 
 
 
@@ -117,11 +116,22 @@ endfor;
 
 # SOM Supervised Learning
 ################################################################################
-labels = zeros(neuronsX, neuronsY)
+labels = zeros(neuronsX, neuronsY);
+
 for i = 1:neuronsX;
     for j = 1:neuronsY;
-        for e : inputLength;
-            #TODO
+        
+        dist = zeros(1,inputLength);
+        for e = 1:inputLength;
+       
+            for k = 1:inputDimens;
+                dist(e) = dist(e) + abs(input(e,k) * RNA(i,j,k));
+            endfor;
+            
+            [M,I] = min(dist);
+            [M,I] = max(expectedOutput(I,:));
+            labels(i,j) = I;
         endfor;
     endfor;
 endfor; 
+labels
