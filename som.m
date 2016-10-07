@@ -159,7 +159,7 @@ for e = 1:inputLength;
         success = success +1;
     endif;
 endfor;
-successRate = (percent/inputLength)
+successRate = (success/inputLength)
 
 
 
