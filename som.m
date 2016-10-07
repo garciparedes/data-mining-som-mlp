@@ -28,7 +28,7 @@ input = input ./ sqrt(sum(input.^2,2));
 inputLength = size(input,1);
 inputDimens = size(input,2);
 
-inputLength = 5;
+inputLength = 10;
 
 #{
 expectedOutput = inputFile;
@@ -76,8 +76,8 @@ for t = 1:times;
         endfor;
         [M,I] = max(distances(:));
         [xWin, yWin] = ind2sub(size(distances),I);
-        [e, xWin, yWin]
-        distances
+        #[e, xWin, yWin]
+        #distances
         
         
         # Update weights of neurons
@@ -112,3 +112,16 @@ for t = 1:times;
         endif;
     endfor;
 endfor;
+
+
+
+# SOM Supervised Learning
+################################################################################
+labels = zeros(neuronsX, neuronsY)
+for i = 1:neuronsX;
+    for j = 1:neuronsY;
+        for e : inputLength;
+            #TODO
+        endfor;
+    endfor;
+endfor; 
