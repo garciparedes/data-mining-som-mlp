@@ -11,8 +11,8 @@ clear all
 ################################################################################
 
 inputFile = dlmread('digitos.entrena.normalizados.txt');
-neuronsX = 10;
-neuronsY = 20;
+neuronsX = 8;
+neuronsY = 12;
 seasons = 50;
 alphaZero = 25;
 
@@ -37,9 +37,6 @@ expectedOutput([1:2:size(expectedOutput,1)],:) = [];
 
 # SOM Inicialization
 ################################################################################
-SOM_neurons = zeros(neuronsX, neuronsY);
-SOM_neurons(:) = 1 : (neuronsX * neuronsY);
-
 SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
 for i = 1 : (neuronsX * neuronsY);
     SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
@@ -53,16 +50,10 @@ radius = min(floor(neuronsX /2), floor(neuronsY /2));
 
 for t = 1:seasons;
     for e = 1:inputLength;
-
-        # Get Distance from input to neuron
-        distances = zeros(neuronsX * neuronsY,1);
-        for i = 1 : (neuronsX * neuronsY);
-            distances(i) = sum(input(e,:) .* SOM_weights(i, :));
-        endfor;
+        distances = input(e,:) * SOM_weights';
         
-        
-        [M,I] = max(abs(distances(:))); 
-        [xWin,yWin] = find(SOM_neurons == I);
+        [M,I] = max(distances); 
+        [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
         
         iterator = [];
         for x = (xWin - radius) : (xWin + radius);
@@ -78,7 +69,7 @@ for t = 1:seasons;
                 elseif(y > neuronsY)
                     y = y - neuronsY;
                 end
-                iterator = [iterator SOM_neurons(x,y)];
+                iterator = [iterator sub2ind([neuronsX, neuronsY], x,y)];
             endfor;
         endfor;
         
@@ -105,8 +96,9 @@ for i = 1: neuronsX * neuronsY;
 
     dist = zeros(1,inputLength);
     for e = 1:inputLength;
-        dist(e) = sum(abs(input(e,:) .* SOM_weights(i,:)));
+        dist(e) = sum((input(e,:) .* SOM_weights(i,:)));
     endfor;
+    
     [M,I] = max(dist);
     [M,I] = max(expectedOutput(I,:));
 
@@ -116,18 +108,21 @@ labels
 
 
 
+
+
+
+# SOM Test
+################################################################################
+
 success = 0;
 for e = 1:inputLength;
 
     # Get Distance from input to neuron
-    distances = zeros(neuronsX * neuronsY,1);
-    for i = 1 : (neuronsX * neuronsY);
-        distances(i) = sum(input(e,:) .* SOM_weights(i, :));
-    endfor;
+    distances = input(e,:) * SOM_weights';
+
     
-    
-    [M,I] = max(abs(distances(:))); 
-    [xWin,yWin] = find(SOM_neurons == I);
+    [M,I] = max((distances)); 
+    [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
     
     [M,I] = max(expectedOutput(e,:));
 
@@ -136,10 +131,6 @@ for e = 1:inputLength;
     endif;
 endfor;
 successRate = (success/inputLength)
-
-
-# SOM Test
-################################################################################
 
 
 inputFile = dlmread('digitos.test.normalizados.txt');
@@ -162,15 +153,10 @@ expectedOutput([1:2:size(expectedOutput,1)],:) = [];
 success = 0;
 for e = 1:inputLength;
 
-    # Get Distance from input to neuron
-    distances = zeros(neuronsX * neuronsY,1);
-    for i = 1 : (neuronsX * neuronsY);
-        distances(i) = sum(input(e,:) .* SOM_weights(i, :));
-    endfor;
+    distances = input(e,:) * SOM_weights';  
     
-    
-    [M,I] = max(abs(distances(:))); 
-    [xWin,yWin] = find(SOM_neurons == I);
+    [M,I] = max((distances)); 
+    [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
     
     [M,I] = max(expectedOutput(e,:));
 
