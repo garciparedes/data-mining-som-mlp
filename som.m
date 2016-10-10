@@ -9,6 +9,7 @@ clear all
 
 # Config Values
 ################################################################################
+################################################################################
 
 inputFile = dlmread('digitos.entrena.normalizados.txt');
 neuronsX = 8;
@@ -17,6 +18,7 @@ seasons = 50;
 alphaZero = 25;
 
 # Input Normalization
+################################################################################
 ################################################################################
 
 input = inputFile;
@@ -37,6 +39,8 @@ expectedOutput([1:2:size(expectedOutput,1)],:) = [];
 
 # SOM Inicialization
 ################################################################################
+################################################################################
+
 SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
 for i = 1 : (neuronsX * neuronsY);
     SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
@@ -46,8 +50,9 @@ endfor;
 
 # SOM Unsupervised Learning
 ################################################################################
-radius = min(floor(neuronsX /2), floor(neuronsY /2));
+################################################################################
 
+radius = min(floor(neuronsX /2), floor(neuronsY /2));
 for t = 1:seasons;
     for e = 1:inputLength;
         distances = input(e,:) * SOM_weights';
@@ -90,8 +95,9 @@ endfor;
 
 # SOM Supervised Learning
 ################################################################################
-labels = zeros(neuronsX,  neuronsY);
+################################################################################
 
+labels = zeros(neuronsX,  neuronsY);
 for i = 1: neuronsX * neuronsY;
 
     dist = zeros(1,inputLength);
@@ -113,6 +119,12 @@ labels
 
 # SOM Test
 ################################################################################
+################################################################################
+
+
+# SOM Test - Training Set
+################################################################################
+
 savedOutput = zeros(inputLength, size(SOM_weights,1));
 success = 0;
 for e = 1:inputLength;
@@ -132,13 +144,14 @@ for e = 1:inputLength;
     savedOutput(e,:) =  distances.^4;
 
 endfor;
-
 csvwrite('digitos.entrena.normalizados.output.csv', [1:size(SOM_weights,1); savedOutput]);
 successRate = (success/inputLength)
 
 
 
 
+# SOM Test - Test Set
+################################################################################
 
 inputFile = dlmread('digitos.test.normalizados.txt');
 
