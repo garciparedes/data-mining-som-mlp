@@ -113,7 +113,7 @@ labels
 
 # SOM Test
 ################################################################################
-
+savedOutput = zeros(inputLength, size(SOM_weights,1));
 success = 0;
 for e = 1:inputLength;
 
@@ -129,8 +129,15 @@ for e = 1:inputLength;
     if( I == labels(xWin, yWin));
         success = success +1;
     endif;
+    savedOutput(e,:) =  distances.^4;
+
 endfor;
+
+csvwrite('digitos.entrena.normalizados.output.csv', [1:size(SOM_weights,1); savedOutput]);
 successRate = (success/inputLength)
+
+
+
 
 
 inputFile = dlmread('digitos.test.normalizados.txt');
@@ -149,7 +156,7 @@ expectedOutput = inputFile;
 expectedOutput(:,[11:size(expectedOutput,2)]) = [];
 expectedOutput([1:2:size(expectedOutput,1)],:) = [];
 
-
+savedOutput = zeros(inputLength, size(SOM_weights,1));
 success = 0;
 for e = 1:inputLength;
 
@@ -163,5 +170,8 @@ for e = 1:inputLength;
     if( I == labels(xWin, yWin));
         success = success +1;
     endif;
+    savedOutput(e,:) =  distances.^4;
 endfor;
+
+csvwrite('digitos.test.normalizados.output.csv', [1:size(SOM_weights,1); savedOutput]);
 successRate = (success/inputLength)
