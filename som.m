@@ -37,10 +37,7 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
     ################################################################################
     ################################################################################
 
-    SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
-    for i = 1 : (neuronsX * neuronsY);
-        SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
-    endfor;
+    SOM_weights = somInit(neuronsX, neuronsY, inputDimens);
 
 
 
@@ -185,5 +182,16 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
     csvwrite('digitos.test.normalizados.output.csv', [1:size(SOM_weights,1); savedOutput]);
     successRate = (success/inputLength)
 endfunction;
+
+
+
+function SOM_weights = somInit(neuronsX, neuronsY, inputDimens)
+    SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
+    for i = 1 : (neuronsX * neuronsY);
+        SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
+    endfor;
+endfunction;
+
+
 
 selfOrganizingMap()
