@@ -7,7 +7,7 @@
 #
 clear all
 
-function selfOrganizedMap(filename ='digitos.entrena.normalizados.txt',
+function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
      neuronsX = 8, neuronsY = 12, seasons = 50, alphaZero = 25)
 
     inputFile = dlmread(filename);
@@ -186,4 +186,4 @@ function selfOrganizedMap(filename ='digitos.entrena.normalizados.txt',
     successRate = (success/inputLength)
 endfunction;
 
-selfOrganizedMap()
+selfOrganizingMap()
