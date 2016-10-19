@@ -20,3 +20,6 @@ slprj/
 octave-workspace
 
 *.output.csv
+
+### Java ###
+*.class
