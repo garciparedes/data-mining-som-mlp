@@ -12,19 +12,6 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
 
     [input, expectedOutput, inputDimens, inputLength] = importFromFile(filename);
     
-
-    # Input Normalization
-    ################################################################################
-    ################################################################################
-
-
-
-
-
-    # SOM Inicialization
-    ################################################################################
-    ################################################################################
-
     SOM_weights = somInit(neuronsX, neuronsY, inputDimens);
 
 
@@ -71,28 +58,17 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
             endif;
         endfor;
     endfor;
-
-
         
-    savedOutput = zeros(inputLength, size(SOM_weights,1) +1);
-    for e = 1:inputLength;
-
-        # Get Distance from input to neuron
-        distances = input(e,:) * SOM_weights';
-
-        
-        [M,I] = max(expectedOutput(e,:));
-
-        
-        savedOutput(e,:) =  [distances.^4 I];
-
-    endfor;
-    csvwrite('digitos.entrena.normalizados.output.csv', [(1:size(SOM_weights,1)), 9999; savedOutput]);
+    exportToFile('digitos.entrena.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
+    
+    [input, expectedOutput, inputDimens, inputLength] = importFromFile('digitos.test.normalizados.txt');
+    exportToFile('digitos.test.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
 
     #{
     # SOM Supervised Learning
     ################################################################################
     ################################################################################
+    [input, expectedOutput, inputDimens, inputLength] = importFromFile('digitos.entrena.normalizados.txt');
 
     labels = zeros(neuronsX,  neuronsY);
     for i = 1: neuronsX * neuronsY;
@@ -117,63 +93,17 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
 
     # SOM Test - Training Set
     ################################################################################
-
-    success = 0;
-    for e = 1:inputLength;
-
-        # Get Distance from input to neuron
-        distances = input(e,:) * SOM_weights';
-
-        
-        [M,I] = max((distances)); 
-        [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
-        
-        [M,I] = max(expectedOutput(e,:));
-
-        if( I == labels(xWin, yWin));
-            success = success +1;
-        endif;
-
-    endfor;
-    successRate = (success/inputLength)
-
+    
+    [input, expectedOutput, inputDimens, inputLength] = importFromFile('digitos.entrena.normalizados.txt');
+    test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expectedOutput)
 
 
 
     # SOM Test - Test Set
     ################################################################################
 
-    inputFile = dlmread('digitos.test.normalizados.txt');
-
-    input = inputFile;
-    input([2:2:size(input,1)],:) = [];
-    input = [input ones(size(input, 1), 1)];
-    input = input ./ sqrt(sum(input.^2,2));
-
-
-    inputLength = size(input,1);
-    inputDimens = size(input,2);
-
-
-    expectedOutput = inputFile;
-    expectedOutput(:,[11:size(expectedOutput,2)]) = [];
-    expectedOutput([1:2:size(expectedOutput,1)],:) = [];
-
-    success = 0;
-    for e = 1:inputLength;
-
-        distances = input(e,:) * SOM_weights';  
-        
-        [M,I] = max((distances)); 
-        [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
-        
-        [M,I] = max(expectedOutput(e,:));
-
-        if( I == labels(xWin, yWin));
-            success = success +1;
-        endif;
-    endfor;
-    successRate = (success/inputLength)
+    [input, expectedOutput, inputDimens, inputLength] = importFromFile('digitos.test.normalizados.txt');
+    test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expectedOutput)
     #}
 endfunction;
 
@@ -185,6 +115,8 @@ function SOM_weights = somInit(neuronsX, neuronsY, inputDimens)
         SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
     endfor;
 endfunction;
+
+
 
 function [input, output, fdimens, fsize ] = importFromFile(filename)
     
@@ -204,6 +136,46 @@ function [input, output, fdimens, fsize ] = importFromFile(filename)
     output([1:2:size(output,1)],:) = [];
 endfunction;
 
+
+
+function exportToFile(filename, SOM_weights, input, inputLength, expectedOutput)
+    
+    savedOutput = zeros(inputLength, size(SOM_weights,1) +1);
+    for e = 1:inputLength;
+
+        distances = input(e,:) * SOM_weights';
+
+        
+        [M,I] = max(expectedOutput(e,:));
+
+        
+        savedOutput(e,:) =  [distances.^4 I];
+
+    endfor;
+    csvwrite(filename, [(1:size(SOM_weights,1)), 9999; savedOutput]);
+endfunction;
+
+
+
+function test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expectedOutput)
+    
+    success = 0;
+    for e = 1:inputLength;
+
+        distances = input(e,:) * SOM_weights';  
+        
+        [M,I] = max((distances)); 
+        [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
+        
+        [M,I] = max(expectedOutput(e,:));
+
+        if( I == labels(xWin, yWin));
+            success = success +1;
+        endif;
+    endfor;
+    successRate = (success/inputLength)
+    
+endfunction;
 
 
 
