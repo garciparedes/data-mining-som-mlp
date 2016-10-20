@@ -5,6 +5,7 @@ import weka.core.Utils;
 import weka.core.converters.CSVLoader;
 
 import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Normalize;
 import weka.filters.unsupervised.attribute.NumericToNominal;
 
 import java.util.Random;
@@ -28,6 +29,10 @@ public class WekaMultiLayerPerceptron {
 
 
             Instances data = loader.getDataSet();
+
+            Normalize normalize = new Normalize();
+            normalize.setInputFormat(data);
+            data = Filter.useFilter(data, normalize);
 
             NumericToNominal convert= new NumericToNominal();
             convert.setInputFormat(data);
