@@ -1,46 +1,48 @@
 \documentclass[10pt, a4paper,spanish]{article}
 \usepackage[utf8]{inputenc}
 
-\usepackage{lipsum} % Package to generate dummy text throughout this template
 \usepackage{varwidth}
 \usepackage{hyperref}
 \usepackage{graphicx}
 
-\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
-\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
 
-\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
-\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
-\usepackage{booktabs} % Horizontal rules in tables
-\usepackage{float} % Required for tables and figures in the multi-column environment - they need to be placed in specific locations with the [H] (e.g. \begin{table}[H])
-\usepackage{hyperref} % For hyperlinks in the PDF
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry}
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
 
-\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
-\usepackage{paralist} % Used for the compactitem environment which makes bullet points with less space between them
+\usepackage{booktabs}
+\usepackage{float}
 
-\usepackage{abstract} % Allows abstract customization
-\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
-\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+\usepackage{hyperref}
 
-\usepackage{titlesec} % Allows customization of titles
-\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
-\renewcommand\thesubsection{\Roman{subsection}} % Roman numerals for subsections
-\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
-\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+\usepackage{lettrine}
+\usepackage{paralist}
+
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+
+\usepackage{titlesec}
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Roman{subsection}}
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{}
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{}
+
 \usepackage{enumitem}
 
-\usepackage{fancyhdr} % Headers and footers
-\pagestyle{fancy} % All pages have headers and footers
-\fancyhead{} % Blank out the default header
-\fancyfoot{} % Blank out the default footer
-\fancyhead[C]{ \today \ $\bullet$ Minería de Datos $\bullet$ Mapa Autoorganizado} % Custom header text
-\fancyfoot[RO,LE]{\thepage} % Custom footer text
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[C]{ \today \ $\bullet$ Minería de Datos $\bullet$ Mapa Autoorganizado y Perceptrón Multicapa}
+\fancyfoot[RO,LE]{\thepage}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
-\title{\vspace{-15mm}\fontsize{24pt}{10pt}\selectfont\textbf{Mapa Autoorganizado}} % Article title
+\title{\vspace{-15mm}\fontsize{24pt}{10pt}\selectfont\textbf{Mapa Autoorganizado y \\ Perceptrón Multicapa}} % Article title
 
 \author{Sergio García Prado}
 \date{\today}
@@ -53,12 +55,45 @@
 
 	\thispagestyle{fancy} % All pages have headers and footers
 
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
 
+	\begin{abstract}
+		\noindent Implementación de un Mapa Autoorganizado en el lenguaje Matlab que sirve de entrada hacia la implementación del Perceptrón Multicapa de WEKA.
+	\end{abstract}
 %----------------------------------------------------------------------------------------
 %	TEXT
 %----------------------------------------------------------------------------------------
 
 	\section{Introducción}
 
+		\subsection{Mapa Autoorganizado}
+
+			\paragraph{}
+			Un mapa auto-organizado es un tipo de red neuronal artificial, que es entrenada usando aprendizaje no supervisado para producir una representación discreta del espacio de las muestras de entrada, llamado mapa. Los mapas auto-organizados son diferentes de otras redes neuronales artificiales, en el sentido que estos usan una función de vecindad para preservar las propiedades topológicas del espacio de entrada.
+
+			\paragraph{}
+			Los SOMs son útiles para visualizar vistas de baja dimensión de datos de alta dimensión, semejante a un escalado multidimensional. El modelo fue descrito por primera vez como una red neuronal artificial por el profesor finlandés Teuvo Kohonen, debido a lo cual en ocasiones son llamadas redes o mapas de Kohonen. Al igual que la mayoría de las redes neuronales artificiales, los SOMs operan en dos modos: entrenamiento y mapeo. En el entrenamiento construye el mapa usando ejemplos entrenantes, mientras que en el mapeo clasifica una nueva entrada.
+
+			\paragraph{}
+			Consiste en componentes llamadas nodos o neuronas. Asociado con cada neurona hay un vector de pesos, de la misma dimensión de los vectores de entrada, y una posición en el mapa. La configuración usual de las neuronas es un espacio regular de dos dimensiones, en una rejilla hexagonal o rectangular. Los mapas auto-organizados describen un mapeo de un espacio de mayor dimensión a uno de menor dimensión. El procedimiento para ubicar un vector del espacio de los datos en el mapa es encontrar la neurona con el vector de pesos más cercano (menor distancia métrica) al vector del espacio de los datos.
+
+			\paragraph{}
+			Mientras que es típico considerar este tipo de estructura de la red de la misma familia que las redes con retro-alimentación, donde los nodos son visualizados como si estuvieran adheridos, este tipo de arquitectura es diferente en configuración y motivación.
+
+		\subsection{Perceptrón Multicapa}
+
+			\paragraph{}
+			El perceptrón multicapa es una red neuronal artificial formada por múltiples capas, esto le permite resolver problemas que no son linealmente separables, lo cual es la principal limitación del perceptrón simple. El perceptrón multicapa puede ser total o localmente conectado. En el primer caso cada salida de una neurona de la capa "i" es entrada de todas las neuronas de la capa "i+1", mientras que en el segundo cada neurona de la capa "i" es entrada de una serie de neuronas (región) de la capa "i+1".
+
+
+	\section{Implementación}
+
+		\paragraph{}
+
+	\section{Comparación}
+
+		\paragraph{}
 
 \end{document}
