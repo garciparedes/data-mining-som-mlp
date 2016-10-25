@@ -94,18 +94,32 @@
 		\paragraph{}
 		El conjunto de datos utilizado se corresponde a una codificación numérica de manuscritos que se corresponden con números del 0 al 9. Estos se codifican han sido codificados en 40 componentes, las cuales representan un tablero de 5 x 8 casillas. Existen dos ficheros, el primero de ellos contiene 270 muestras que serán utilizadas para entrenamiento y otras 70 para tareas de test y comprobación de resultados.
 
+
+
 		\paragraph{}
-		Podemos dividir la implementación realiza en 3 partes principales según la funcionalidad que aporta cada una:
+		Podemos dividir la implementación realizada en las siguientes partes según la funcionalidad que aporta cada una:
 
-
-		\subsection{Fase No Supervisada de SOM}
-
-			\paragraph{}
-
-
-		\subsection{Fase Supervisada de SOM}
+		\subsection{Mapa auto-organizado}
 
 			\paragraph{}
+			El mapa auto-organizado implementado se ha probado con unas dimensiones de 12 x 8 neuronas, aunque este valor se puede modificar. También se han utilizado 50 épocas para la fase de aprendizaje no supervisado y un coeficiente de aprendizaje $\alpha_0$ de 25. Para la fase de aprendizaje supervisado se ha realizado un etiquetado por neuronas. En cuanto a la fase supervisada se ha utilizado un etiquetado por neuronas.
+
+			\paragraph{}
+			Lo primero que sucede al obtener los datos de entrada es la transformación de los mismos a un formato con el que se pueda trabajar con facilidad (dado que su distribución en los ficheros no sigue una estructura que facilite la realización de operaciones). Por tanto, se divide cada uno de los ficheros en 2 matrices, que representan las muestras por filas y los atributos por columna en el caso del primero y la clase deseada en el restante (realizando la tranformación apropiada de 10 componentes a 1 de carácter nominal). Para que no surjan problemas de colisión en la fase de normalización se añade una nueva componente a todas las muestras cuyo valor es 1.
+
+			\paragraph{}
+			El siguiente paso es normalizar la matriz que contiene los atributos de entrada por filas para que no surjan problemas debido a la escala de los mismos. El último paso antes de comenzar con la fase no supervisada del algoritmo se refiere a la inicialización de los pesos de las componentes de cada neurona (generados aleatoriamente en el rango $[-0.5, 0.5]$) y que después son normalizados para poder aplicar en fases siguientes la propiedad del coseno para el cálculo de distancias.
+
+			\begin{itemize}
+
+				\item \textbf{Fase No Supervisada de SOM}: Consiste en el proceso de "adaptación" de los pesos de las neuronas inicializadas anteriormente a los valores de las muestras. Para ello, por cada muestra, se calcula la distancia a todas las neuronas del mapa para saber cuál es la más cercana. A dicha neurona se la denomina \emph{ganadora} y será en torno a la cual se produzca el aprendizaje durante dicha iteracción. Lo siguiente es calcular el conjunto de neuronas que serán afectadas por el aprendizaje (radio de vecindad). En este caso se ha decido utilzar una estructura cuadrada cuyo lado inicial es igual al lado mínimo del mapa y que va decreciendo con el número de iteracciones hasta que solo se ve afectada la neurona ganadora. Seguidamente se utiliza el coeficiente de aprendizaje (que depende de la época y es decreciente), para tratar de "orientar" la dirección del vector de pesos de la neurona hacia la muestra correspondiente. En este caso se ha utilizado $\alpha(t) =  \frac{\alpha_0}{1 + t/P}$ siendo $t$ la época actual y $P$ el tamaño de muestras de la misma. Este proceso se realiza tantas veces como épocas se hayan fijado (50 por defecto en esta implementación)
+
+
+				\item \textbf{Fase Supervisada de SOM}: La fase de aprendizaje supervisado consiste en el proceso de etiquetado de clases a cada neurona, ya que lo que se ha realizado hasta el momento es el cálculo para tratar de asemejar las neuronas del mapa a la entrada. Existen dos alternativas a la hora de realizar este proceso: etiquetado global y etiquetado por neuronas. En esta implementación se ha escogido el \textbf{etiquetado por neuronas} ya que aprovecha al máximo los calculos anteriores, haciendo uso de todas las neuronas. Este proceso consiste en el cálculo de las distancias de todas las entradas a cada una de las neuronas etiquetandolas con la clase de la muestra más cercana a cada una de ellas.
+
+			\end{itemize}
+
+
 
 		\subsection{Perceptrón Multicapa}
 
