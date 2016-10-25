@@ -60,7 +60,7 @@
 %----------------------------------------------------------------------------------------
 
 	\begin{abstract}
-		\noindent Implementación de un Mapa Autoorganizado en el lenguaje Matlab que sirve de entrada hacia la implementación del Perceptrón Multicapa de WEKA.
+		\noindent El trabajo consiste en la implementación de un Mapa Autoorganizado en el lenguaje Matlab, el cual se ha utilizado como "filtro" de entrada hacia Perceptrón Multicapa. Para realizar dichas pruebas se ha utilizado el MLP implementado en la biblioteca WEKA del lenguaje Java.
 	\end{abstract}
 %----------------------------------------------------------------------------------------
 %	TEXT
@@ -74,25 +74,45 @@
 			Un mapa auto-organizado es un tipo de red neuronal artificial, que es entrenada usando aprendizaje no supervisado para producir una representación discreta del espacio de las muestras de entrada, llamado mapa. Los mapas auto-organizados son diferentes de otras redes neuronales artificiales, en el sentido que estos usan una función de vecindad para preservar las propiedades topológicas del espacio de entrada.
 
 			\paragraph{}
-			Los SOMs son útiles para visualizar vistas de baja dimensión de datos de alta dimensión, semejante a un escalado multidimensional. El modelo fue descrito por primera vez como una red neuronal artificial por el profesor finlandés Teuvo Kohonen, debido a lo cual en ocasiones son llamadas redes o mapas de Kohonen. Al igual que la mayoría de las redes neuronales artificiales, los SOMs operan en dos modos: entrenamiento y mapeo. En el entrenamiento construye el mapa usando ejemplos entrenantes, mientras que en el mapeo clasifica una nueva entrada.
+			El modelo fue descrito por primera vez como una red neuronal artificial por el profesor finlandés Teuvo Kohonen, debido a lo cual en ocasiones son llamadas redes o mapas de Kohonen. Al igual que la mayoría de las redes neuronales artificiales, los SOMs operan en dos modos: entrenamiento y mapeo. En el entrenamiento construye el mapa usando ejemplos entrenantes, mientras que en el mapeo clasifica una nueva entrada.
 
 			\paragraph{}
-			Consiste en componentes llamadas nodos o neuronas. Asociado con cada neurona hay un vector de pesos, de la misma dimensión de los vectores de entrada, y una posición en el mapa. La configuración usual de las neuronas es un espacio regular de dos dimensiones, en una rejilla hexagonal o rectangular. Los mapas auto-organizados describen un mapeo de un espacio de mayor dimensión a uno de menor dimensión. El procedimiento para ubicar un vector del espacio de los datos en el mapa es encontrar la neurona con el vector de pesos más cercano (menor distancia métrica) al vector del espacio de los datos.
+			Un mapa auto-organizado consiste en un conjunto de componentes llamadas nodos o neuronas. Asociado con cada neurona hay un vector de pesos, de la misma dimensión de los vectores de entrada, y una posición en el mapa. La configuración usual de las neuronas es un espacio regular de dos dimensiones, en una rejilla hexagonal o rectangular. Los mapas auto-organizados describen un mapeo de un espacio de mayor dimensión a uno de menor dimensión. El procedimiento para ubicar un vector del espacio de los datos en el mapa es encontrar la neurona con el vector de pesos más cercano (menor distancia métrica) al vector del espacio de los datos. El proceso de aprendizaje se lleva a cabo a través de la relación de vecindad entre neuronas, siendo afectadas tanto la de menor distancia a la entrada y las vecinas de la misma.
 
-			\paragraph{}
-			Mientras que es típico considerar este tipo de estructura de la red de la misma familia que las redes con retro-alimentación, donde los nodos son visualizados como si estuvieran adheridos, este tipo de arquitectura es diferente en configuración y motivación.
 
 		\subsection{Perceptrón Multicapa}
 
 			\paragraph{}
-			El perceptrón multicapa es una red neuronal artificial formada por múltiples capas, esto le permite resolver problemas que no son linealmente separables, lo cual es la principal limitación del perceptrón simple. El perceptrón multicapa puede ser total o localmente conectado. En el primer caso cada salida de una neurona de la capa "i" es entrada de todas las neuronas de la capa "i+1", mientras que en el segundo cada neurona de la capa "i" es entrada de una serie de neuronas (región) de la capa "i+1".
+			El perceptrón multicapa es una red neuronal formada por múltiples capas, esto le permite resolver problemas que no son linealmente separables, lo cual es la principal limitación del perceptrón simple. El perceptrón multicapa puede ser total o localmente conectado. En el primer caso cada salida de una neurona de la capa "i" es entrada de todas las neuronas de la capa "i+1", mientras que en el segundo cada neurona de la capa "i" es entrada de una serie de neuronas (región) de la capa "i+1".
 
-
+	\clearpage
 	\section{Implementación}
 
 		\paragraph{}
+		La implementación consiste en el desarrollo de un mapa auto-organizado en el lenguaje Matlab, cuya salida de la fase no supervisada se ha introducido en un perceptrón multicapa. Para ello se ha utilizado el MLP que implementa la librería WEKA. Además se ha desarrollado la fase supervisada del mapa auto-organizado, por lo que se ha podido obtener una comparativa sobre las dos alternativas.
 
-	\section{Comparación}
+		\paragraph{}
+		El conjunto de datos utilizado se corresponde a una codificación numérica de manuscritos que se corresponden con números del 0 al 9. Estos se codifican han sido codificados en 40 componentes, las cuales representan un tablero de 5 x 8 casillas. Existen dos ficheros, el primero de ellos contiene 270 muestras que serán utilizadas para entrenamiento y otras 70 para tareas de test y comprobación de resultados.
+
+		\paragraph{}
+		Podemos dividir la implementación realiza en 3 partes principales según la funcionalidad que aporta cada una:
+
+
+		\subsection{Fase No Supervisada de SOM}
+
+			\paragraph{}
+
+
+		\subsection{Fase Supervisada de SOM}
+
+			\paragraph{}
+
+		\subsection{Perceptrón Multicapa}
+
+			\paragraph{}
+
+
+	\section{Resultados}
 
 		\paragraph{}
 
