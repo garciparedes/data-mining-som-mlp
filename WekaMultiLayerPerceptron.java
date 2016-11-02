@@ -30,8 +30,8 @@ public class WekaMultiLayerPerceptron {
 
 
             MultilayerPerceptron mlp = new MultilayerPerceptron();
-            mlp.setTrainingTime(12000);
-            mlp.setHiddenLayers("96");
+            mlp.setTrainingTime(2000);
+            mlp.setHiddenLayers("o");
             mlp.buildClassifier(train);
             //System.out.println(mlp.toString());
 
@@ -52,10 +52,6 @@ public class WekaMultiLayerPerceptron {
         loader.setSource(new File(filePath));
 
         Instances data = loader.getDataSet();
-
-        Normalize normalize = new Normalize();
-        normalize.setInputFormat(data);
-        data = Filter.useFilter(data, normalize);
 
         NumericToNominal convert= new NumericToNominal();
         convert.setInputFormat(data);
