@@ -1,23 +1,16 @@
 \documentclass[10pt, a4paper,spanish]{article}
 \usepackage[utf8]{inputenc}
 
-\usepackage{varwidth}
 \usepackage{hyperref}
-\usepackage{graphicx}
 
 \usepackage[T1]{fontenc}
-\usepackage{microtype}
 
 \usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry}
 \usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption}
 
-\usepackage{booktabs}
-\usepackage{float}
 
-\usepackage{hyperref}
-
-\usepackage{lettrine}
-\usepackage{paralist}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
 \usepackage{abstract}
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
@@ -29,7 +22,6 @@
 \titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{}
 \titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{}
 
-\usepackage{enumitem}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -129,5 +121,7 @@
 	\section{Resultados}
 
 		\paragraph{}
+		\includegraphics[width=\textwidth]{results}
+
 
 \end{document}
