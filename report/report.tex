@@ -52,8 +52,9 @@
 %----------------------------------------------------------------------------------------
 
 	\begin{abstract}
-		\noindent El trabajo consiste en la implementación de un Mapa Auto-organizado en el lenguaje Matlab, el cual se ha utilizado como "filtro" de entrada hacia Perceptrón Multicapa. Para realizar dichas pruebas se ha utilizado el MLP implementado en la biblioteca WEKA del lenguaje Java.
+		\noindent El trabajo consiste en la implementación de un Mapa Auto-organizado en el lenguaje Matlab/Octave, el cuál se ha utilizado como "filtro" de entrada hacia el Perceptrón Multicapa que implementa la biblioteca destinada a Minería de Datos WEKA. Además, se ha realizado una comparativa sobre la tasa de acierto del SOM, del SOM + MLP y del MLP.
 	\end{abstract}
+	
 %----------------------------------------------------------------------------------------
 %	TEXT
 %----------------------------------------------------------------------------------------
@@ -86,8 +87,6 @@
 		\paragraph{}
 		El conjunto de datos utilizado se corresponde a una codificación numérica de manuscritos que representan números del 0 al 9. Estos han sido codificados en 40 componentes, las cuales representan un tablero de 5 x 8 casillas. Existen dos ficheros, el primero contiene 270 muestras que serán utilizadas para entrenamiento y el segundo 70 para tareas de test y comprobación de resultados.
 
-
-
 		\paragraph{}
 		Podemos dividir la implementación realizada en las siguientes partes según la funcionalidad que aporta cada una:
 
@@ -111,12 +110,23 @@
 
 			\end{itemize}
 
+			\paragraph{}
+			La implementación del mapa auto-organizado en Matlab/Octave produce las sigientes salidas:
 
+			\begin{itemize}
+				\item Ficheros de entrada (entrena y test) junto con las clases correspondientes en formato CSV
+				\item Ficheros de distancias (entrena y test) a cada una de las neuronas de SOM junto con las clases a las que pertenecen en formato CSV
+				\item Estado del mapa (etiquetado de las neuronas) tras la fase de entrenamiento supervisada por salida estandar.
+				\item Tasa de aciertos del SOM con el fichero de test por salida estandar.
+			\end{itemize}
 
 		\subsection{Perceptrón Multicapa}
 
 			\paragraph{}
+			En cuanto a la implementación del perceptrón multicapa, no se ha desarrollado por completo, sino que se ha utilizado la biblioteca WEKA, que ya posee una implementación de la misma. Por tanto, tan solo ha sido necesaria la preparación de los datos de entrada así como el ajuste de parámetros de la misma.
 
+			\paragraph{}
+			Para realizar la comparativa entre el uso de un Perceptrón Multicapa y la convinación del mismo con un Mapa Auto-organizado como filtro de entrada se han utilizado los 4 ficheros anteriormente producidos por la implementación en Matlab/Octave.
 
 	\section{Resultados}
 
