@@ -27,10 +27,6 @@ public class WekaMultiLayerPerceptron {
 
 
     public static void main(String[] args) {
-        System.out.println();
-        System.out.println("WEKA");
-        System.out.println();
-
 
         System.out.println("SOM + MLP");
         runMLP(ENTRENA_SOM_FILEPATH, TEST_SOM_FILEPATH);
