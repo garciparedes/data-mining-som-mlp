@@ -16,14 +16,35 @@ import java.io.*;
  */
 public class WekaMultiLayerPerceptron {
 
-    private static final String ENTRENA_FILEPATH = "./digitos.entrena.normalizados.output.csv";
-    private static final String TEST_FILEPATH = "./digitos.test.normalizados.output.csv";
+
+    private static final String ENTRENA_SOM_FILEPATH = "./digitos.entrena.normalizados.output.csv";
+    private static final String TEST_SOM_FILEPATH = "./digitos.test.normalizados.output.csv";
+
+
+    private static final String ENTRENA_FILEPATH = "./digitos.entrena.normalizados.input.csv";
+    private static final String TEST_FILEPATH = "./digitos.test.normalizados.input.csv";
+
 
 
     public static void main(String[] args) {
+        System.out.println();
+        System.out.println("WEKA");
+        System.out.println();
+
+
+        System.out.println("SOM + MLP");
+        runMLP(ENTRENA_SOM_FILEPATH, TEST_SOM_FILEPATH);
+
+        System.out.println("MLP");
+        runMLP(ENTRENA_FILEPATH, TEST_FILEPATH);
+    }
+
+
+
+    private static void runMLP(String trainFilePath, String testFilePath) {
         try {
-            Instances train = getInstancesFromFile(ENTRENA_FILEPATH);
-            Instances test = getInstancesFromFile(TEST_FILEPATH);
+            Instances train = getInstancesFromFile(trainFilePath);
+            Instances test = getInstancesFromFile(testFilePath);
 
             //System.out.println(train.toSummaryString());
             //System.out.println(test.toSummaryString());
@@ -43,8 +64,8 @@ public class WekaMultiLayerPerceptron {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
 
 
     private static Instances getInstancesFromFile(String filePath) throws Exception {

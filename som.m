@@ -11,7 +11,7 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
      neuronsX = 8, neuronsY = 12, seasons = 50, alphaZero = 25)
 
     [input, expectedOutput, inputDimens, inputLength] = importFromFile(filename);
-
+    exportToFile('digitos.entrena.normalizados.input.csv', input, inputLength, expectedOutput);
     SOM_weights = somInit(neuronsX, neuronsY, inputDimens);
 
 
@@ -28,24 +28,7 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
             [M,I] = max(distances);
             [xWin,yWin] = ind2sub([neuronsX, neuronsY],I);
 
-            iterator = [];
-            for x = (xWin - radius) : (xWin + radius);
-                if (x < 1)
-                    x = x + neuronsX;
-                elseif(x > neuronsX)
-                    x = x - neuronsX;
-                end
-
-                for y = (yWin - radius) : (yWin + radius);
-                    if (y < 1)
-                        y = y + neuronsY;
-                    elseif(y > neuronsY)
-                        y = y - neuronsY;
-                    end
-                    iterator = [iterator sub2ind([neuronsX, neuronsY], x,y)];
-                endfor;
-            endfor;
-
+            iterator = getNeighborNeurons(neuronsX, neuronsY, radius, xWin, yWin);
 
             for i = iterator;
                 temp = SOM_weights(i,:) + ((alphaZero/(1+t/inputLength)) .* input(e,:));
@@ -59,7 +42,7 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
         endfor;
     endfor;
 
-    exportToFile('digitos.entrena.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
+    exportNeuronDistancesToFile('digitos.entrena.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
 
 
     # SOM Supervised Learning
@@ -83,7 +66,8 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
 
 
     [input, expectedOutput, inputDimens, inputLength] = importFromFile('digitos.test.normalizados.txt');
-    exportToFile('digitos.test.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
+    exportToFile('digitos.test.normalizados.input.csv', input, inputLength, expectedOutput);
+    exportNeuronDistancesToFile('digitos.test.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
 
 
     # SOM Test
@@ -99,6 +83,25 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
 endfunction;
 
 
+function iterator = getNeighborNeurons(neuronsX, neuronsY, radius, xWin, yWin)
+    iterator = [];
+    for x = (xWin - radius) : (xWin + radius);
+        if (x < 1)
+            x = x + neuronsX;
+        elseif(x > neuronsX)
+            x = x - neuronsX;
+        end
+
+        for y = (yWin - radius) : (yWin + radius);
+            if (y < 1)
+                y = y + neuronsY;
+            elseif(y > neuronsY)
+                y = y - neuronsY;
+            end
+            iterator = [iterator sub2ind([neuronsX, neuronsY], x,y)];
+        endfor;
+    endfor;
+endfunction;
 
 function SOM_weights = somInit(neuronsX, neuronsY, inputDimens)
     SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
@@ -128,8 +131,20 @@ function [input, output, fdimens, fsize ] = importFromFile(filename)
 endfunction;
 
 
+function exportToFile(filename, input, inputLength, expectedOutput)
 
-function exportToFile(filename, SOM_weights, input, inputLength, expectedOutput)
+    savedOutput = zeros(inputLength, size(input,2) +1);
+    for e = 1:inputLength;
+
+        [M,I] = max(expectedOutput(e,:));
+        savedOutput(e,:) =  [input(e, :) I];
+
+    endfor;
+    csvwrite(filename, [(1:size(input,2)), 9999; savedOutput]);
+endfunction;
+
+
+function exportNeuronDistancesToFile(filename, SOM_weights, input, inputLength, expectedOutput)
 
     savedOutput = zeros(inputLength, size(SOM_weights,1) +1);
     for e = 1:inputLength;
@@ -165,7 +180,6 @@ function test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expec
         endif;
     endfor;
     successRate = (success/inputLength)
-
 endfunction;
 
 
