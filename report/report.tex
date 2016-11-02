@@ -30,16 +30,16 @@
 \fancyhead[C]{ \today \ $\bullet$ Minería de Datos $\bullet$ Mapa Auto-organizado y Perceptrón Multicapa}
 \fancyfoot[RO,LE]{\thepage}
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	TITLE SECTION
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 \title{\vspace{-15mm}\fontsize{24pt}{10pt}\selectfont\textbf{Mapa Auto-organizado y \\ Perceptrón Multicapa}} % Article title
 
 \author{Sergio García Prado}
 \date{\today}
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 \begin{document}
 
@@ -47,17 +47,17 @@
 
 	\thispagestyle{fancy} % All pages have headers and footers
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	ABSTRACT
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 	\begin{abstract}
 		\noindent El trabajo consiste en la implementación de un Mapa Auto-organizado en el lenguaje Matlab/Octave, el cuál se ha utilizado como "filtro" de entrada hacia el Perceptrón Multicapa que implementa la biblioteca destinada a Minería de Datos WEKA. Además, se ha realizado una comparativa sobre la tasa de acierto del SOM, del SOM + MLP y del MLP.
 	\end{abstract}
 
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 %	TEXT
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------
 
 	\section{Introducción}
 
@@ -116,8 +116,8 @@
 			\begin{itemize}
 				\item Ficheros de entrada (entrena y test) junto con las clases correspondientes en formato CSV
 				\item Ficheros de distancias (entrena y test) a cada una de las neuronas de SOM junto con las clases a las que pertenece cada muestra en formato CSV
-				\item Estado del mapa (etiquetado de las neuronas) tras la fase de entrenamiento supervisada por salida estandar.
-				\item Tasa de aciertos del SOM con el fichero de test por salida estandar.
+				\item Estado del mapa (etiquetado de las neuronas) tras la fase de entrenamiento supervisada por salida estándar.
+				\item Tasa de aciertos del SOM con el fichero de test por salida estándar.
 			\end{itemize}
 
 		\subsection{Perceptrón Multicapa}
@@ -131,12 +131,12 @@
 		\subsection{Shell Script}
 
 			\paragraph{}
-			La simulación se puede llevar a cabo ejecutando el fichero shell llamado script.sh, que realiza la ejecución de todas las implementaciones para después poder comparar resultados.
+			La simulación se puede llevar a cabo ejecutando el fichero shell llamado \textbf{script.sh}, que realiza la ejecución de todas las implementaciones para después poder comparar resultados.
 
 	\section{Resultados}
 
 		\paragraph{}
-		Como se puede ver en la figura \ref{fig:results}, los resultados obtenidos únicamente con el mapa auto-organizado son los peores, a pesar de ello son los que menor coste computacional producen. En segundo lugar en cuanto a tasa de aciertos queda el Perceptrón Multicapa con la implementación en Weka. Cuando se utilizan las dos técnicas en conjunto (utilizando el mapa auto-organizado como filtro para la entrada al perceptrón multicapa el resultado mejora). A pesar de ello, esta es la alternativa que mayor coste computacional produce.
+		Como se puede ver en la figura \ref{fig:results}, los resultados obtenidos únicamente con el mapa auto-organizado son los peores, a pesar de ello son los que menor coste computacional producen. En segundo lugar en cuanto a tasa de aciertos queda el Perceptrón Multicapa con la implementación en Weka. Cuando se utilizan las dos técnicas conjuntamente (utilizando el mapa auto-organizado como filtro para la entrada al perceptrón multicapa el resultado mejora). A pesar de ello, esta es la alternativa que mayor coste computacional produce.
 
 		\begin{figure}[htb]
 			\centering
