@@ -7,13 +7,15 @@
 #
 clear all
 
+
+
+
 function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
      neuronsX = 8, neuronsY = 12, seasons = 50, alphaZero = 25)
 
     [input, expectedOutput, inputDimens, inputLength] = importFromFile(filename);
     exportToFile('digitos.entrena.normalizados.input.csv', input, inputLength, expectedOutput);
     SOM_weights = somInit(neuronsX, neuronsY, inputDimens);
-
 
 
     # SOM Unsupervised Learning
@@ -83,6 +85,8 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
 endfunction;
 
 
+
+
 function iterator = getNeighborNeurons(neuronsX, neuronsY, radius, xWin, yWin)
     iterator = [];
     for x = (xWin - radius) : (xWin + radius);
@@ -103,12 +107,16 @@ function iterator = getNeighborNeurons(neuronsX, neuronsY, radius, xWin, yWin)
     endfor;
 endfunction;
 
+
+
+
 function SOM_weights = somInit(neuronsX, neuronsY, inputDimens)
     SOM_weights = rand(neuronsX * neuronsY, inputDimens) - 0.5;
     for i = 1 : (neuronsX * neuronsY);
         SOM_weights(i,:) = SOM_weights(i,:) ./ norm(SOM_weights(i,:));
     endfor;
 endfunction;
+
 
 
 
@@ -131,6 +139,8 @@ function [input, output, fdimens, fsize ] = importFromFile(filename)
 endfunction;
 
 
+
+
 function exportToFile(filename, input, inputLength, expectedOutput)
 
     savedOutput = zeros(inputLength, size(input,2) +1);
@@ -142,6 +152,8 @@ function exportToFile(filename, input, inputLength, expectedOutput)
     endfor;
     csvwrite(filename, [(1:size(input,2)), 9999; savedOutput]);
 endfunction;
+
+
 
 
 function exportNeuronDistancesToFile(filename, SOM_weights, input, inputLength, expectedOutput)
@@ -163,6 +175,7 @@ endfunction;
 
 
 
+
 function test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expectedOutput)
 
     success = 0;
@@ -181,6 +194,7 @@ function test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expec
     endfor;
     successRate = (success/inputLength)
 endfunction;
+
 
 
 
