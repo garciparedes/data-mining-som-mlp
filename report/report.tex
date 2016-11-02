@@ -115,7 +115,7 @@
 
 			\begin{itemize}
 				\item Ficheros de entrada (entrena y test) junto con las clases correspondientes en formato CSV
-				\item Ficheros de distancias (entrena y test) a cada una de las neuronas de SOM junto con las clases a las que pertenece cada muestra en formato CSV
+				\item Ficheros de distancias (entrena y test) a cada una de las neuronas del SOM con el filtro $n^4$ para facilitar la tarea de clasificación al MLP  junto con las clases a las que pertenece cada muestra en formato CSV
 				\item Estado del mapa (etiquetado de las neuronas) tras la fase de entrenamiento supervisada por salida estándar.
 				\item Tasa de aciertos del SOM con el fichero de test por salida estándar.
 			\end{itemize}
@@ -140,7 +140,7 @@
 
 		\begin{figure}[htb]
 			\centering
-			\includegraphics[width=\textwidth]{results}
+			\includegraphics[width=0.9\textwidth]{results}
 			\caption{Resultados de las distintas implementaciones.}
             \label{fig:results}
 		\end{figure}

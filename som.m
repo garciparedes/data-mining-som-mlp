@@ -63,7 +63,7 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
         [M,I] = max(dist);
         [M,I] = max(expectedOutput(I,:));
 
-        labels(i) = I;
+        labels(i) = I-1;
     endfor;
     labels
 
@@ -148,7 +148,7 @@ function exportToFile(filename, input, inputLength, expectedOutput)
     for e = 1:inputLength;
 
         [M,I] = max(expectedOutput(e,:));
-        savedOutput(e,:) =  [input(e, :) I];
+        savedOutput(e,:) =  [input(e, :) (I-1)];
 
     endfor;
     csvwrite(filename, [(1:size(input,2)), 9999; savedOutput]);
@@ -168,7 +168,7 @@ function exportNeuronDistancesToFile(filename, SOM_weights, input, inputLength, 
         [M,I] = max(expectedOutput(e,:));
 
 
-        savedOutput(e,:) =  [distances.^4 I];
+        savedOutput(e,:) =  [distances.^4 (I-1)];
 
     endfor;
     csvwrite(filename, [(1:size(SOM_weights,1)), 9999; savedOutput]);
@@ -189,7 +189,7 @@ function test(SOM_weights, labels, neuronsX, neuronsY, input, inputLength, expec
 
         [M,I] = max(expectedOutput(e,:));
 
-        if( I == labels(xWin, yWin));
+        if( (I-1) == labels(xWin, yWin));
             success = success +1;
         endif;
     endfor;
