@@ -6,6 +6,7 @@
 # garciparedes.me
 #
 clear all
+cd('./dataset')
 
 
 

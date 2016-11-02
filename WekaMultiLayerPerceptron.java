@@ -16,7 +16,7 @@ import java.io.*;
  */
 public class WekaMultiLayerPerceptron {
 
-
+    private static final String FOLDER_DATASET_PATH = "./dataset/";
     private static final String ENTRENA_SOM_FILEPATH = "./digitos.entrena.normalizados.output.csv";
     private static final String TEST_SOM_FILEPATH = "./digitos.test.normalizados.output.csv";
 
@@ -66,7 +66,7 @@ public class WekaMultiLayerPerceptron {
 
     private static Instances getInstancesFromFile(String filePath) throws Exception {
         CSVLoader loader = new CSVLoader();
-        loader.setSource(new File(filePath));
+        loader.setSource(new File(FOLDER_DATASET_PATH, filePath));
 
         Instances data = loader.getDataSet();
 

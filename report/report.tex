@@ -54,7 +54,7 @@
 	\begin{abstract}
 		\noindent El trabajo consiste en la implementación de un Mapa Auto-organizado en el lenguaje Matlab/Octave, el cuál se ha utilizado como "filtro" de entrada hacia el Perceptrón Multicapa que implementa la biblioteca destinada a Minería de Datos WEKA. Además, se ha realizado una comparativa sobre la tasa de acierto del SOM, del SOM + MLP y del MLP.
 	\end{abstract}
-	
+
 %----------------------------------------------------------------------------------------
 %	TEXT
 %----------------------------------------------------------------------------------------
@@ -64,19 +64,19 @@
 		\subsection{Mapa Auto-organizado}
 
 			\paragraph{}
-			Un mapa auto-organizado es un tipo de red neuronal artificial, que es entrenada usando aprendizaje no supervisado para producir una representación discreta del espacio de las muestras de entrada, llamado mapa. Los mapas auto-organizados son diferentes de otras redes neuronales artificiales, en el sentido que estos usan una función de vecindad para preservar las propiedades topológicas del espacio de entrada.
+			Un mapa auto-organizado es un tipo de red neuronal artificial, que es entrenada usando aprendizaje no supervisado para producir una representación discreta del espacio de las muestras de entrada, llamado mapa. Los mapas auto-organizados son diferentes de otras redes neuronales artificiales, en el sentido que estos usan una función de vecindad para preservar las propiedades topológicas del espacio de entrada. \cite{wikipedia:som}
 
 			\paragraph{}
-			El modelo fue descrito por primera vez como una red neuronal artificial por el profesor finlandés Teuvo Kohonen, debido a lo cual en ocasiones son llamadas redes o mapas de Kohonen. Al igual que la mayoría de las redes neuronales artificiales, los SOMs operan en dos modos: entrenamiento y mapeo. En el entrenamiento construye el mapa usando ejemplos entrenantes, mientras que en el mapeo clasifica una nueva entrada.
+			El modelo fue descrito por primera vez como una red neuronal artificial por el profesor finlandés Teuvo Kohonen, debido a lo cual en ocasiones son llamadas redes o mapas de Kohonen. Al igual que la mayoría de las redes neuronales artificiales, los SOMs operan en dos modos: entrenamiento y mapeo. En el entrenamiento construye el mapa usando ejemplos entrenantes, mientras que en el mapeo clasifica una nueva entrada. \cite{wikipedia:som}
 
 			\paragraph{}
-			Un mapa auto-organizado consiste en un conjunto de componentes llamadas nodos o neuronas. Asociado con cada neurona hay un vector de pesos, de la misma dimensión de los vectores de entrada, y una posición en el mapa. La configuración usual de las neuronas es un espacio regular de dos dimensiones, en una rejilla hexagonal o rectangular. Los mapas auto-organizados describen un mapeo de un espacio de mayor dimensión a uno de menor dimensión. El procedimiento para ubicar un vector del espacio de los datos en el mapa es encontrar la neurona con el vector de pesos más cercano (menor distancia métrica) al vector del espacio de los datos. El proceso de aprendizaje se lleva a cabo a través de la relación de vecindad entre neuronas, siendo afectadas tanto la de menor distancia a la entrada y las vecinas de la misma.
+			Un mapa auto-organizado consiste en un conjunto de componentes llamadas nodos o neuronas. Asociado con cada neurona hay un vector de pesos, de la misma dimensión de los vectores de entrada, y una posición en el mapa. La configuración usual de las neuronas es un espacio regular de dos dimensiones, en una rejilla hexagonal o rectangular. Los mapas auto-organizados describen un mapeo de un espacio de mayor dimensión a uno de menor dimensión. El procedimiento para ubicar un vector del espacio de los datos en el mapa es encontrar la neurona con el vector de pesos más cercano (menor distancia métrica) al vector del espacio de los datos. El proceso de aprendizaje se lleva a cabo a través de la relación de vecindad entre neuronas, siendo afectadas tanto la de menor distancia a la entrada y las vecinas de la misma. \cite{wikipedia:som}
 
 
 		\subsection{Perceptrón Multicapa}
 
 			\paragraph{}
-			El perceptrón multicapa es una red neuronal formada por múltiples capas, esto le permite resolver problemas que no son linealmente separables, lo cual es la principal limitación del perceptrón simple. El perceptrón multicapa puede ser total o localmente conectado. En el primer caso cada salida de una neurona de la capa "i" es entrada de todas las neuronas de la capa "i+1", mientras que en el segundo cada neurona de la capa "i" es entrada de una serie de neuronas (región) de la capa "i+1".
+			El perceptrón multicapa es una red neuronal formada por múltiples capas, esto le permite resolver problemas que no son linealmente separables, lo cual es la principal limitación del perceptrón simple. El perceptrón multicapa puede ser total o localmente conectado. En el primer caso cada salida de una neurona de la capa "i" es entrada de todas las neuronas de la capa "i+1", mientras que en el segundo cada neurona de la capa "i" es entrada de una serie de neuronas (región) de la capa "i+1". \cite{wikipedia:mlp}
 
 	\clearpage
 	\section{Implementación}
@@ -115,7 +115,7 @@
 
 			\begin{itemize}
 				\item Ficheros de entrada (entrena y test) junto con las clases correspondientes en formato CSV
-				\item Ficheros de distancias (entrena y test) a cada una de las neuronas de SOM junto con las clases a las que pertenecen en formato CSV
+				\item Ficheros de distancias (entrena y test) a cada una de las neuronas de SOM junto con las clases a las que pertenece cada muestra en formato CSV
 				\item Estado del mapa (etiquetado de las neuronas) tras la fase de entrenamiento supervisada por salida estandar.
 				\item Tasa de aciertos del SOM con el fichero de test por salida estandar.
 			\end{itemize}
@@ -126,12 +126,36 @@
 			En cuanto a la implementación del perceptrón multicapa, no se ha desarrollado por completo, sino que se ha utilizado la biblioteca WEKA, que ya posee una implementación de la misma. Por tanto, tan solo ha sido necesaria la preparación de los datos de entrada así como el ajuste de parámetros de la misma.
 
 			\paragraph{}
-			Para realizar la comparativa entre el uso de un Perceptrón Multicapa y la convinación del mismo con un Mapa Auto-organizado como filtro de entrada se han utilizado los 4 ficheros anteriormente producidos por la implementación en Matlab/Octave.
+			Para realizar la comparativa entre el uso de un Perceptrón Multicapa y la combinación del mismo con un Mapa Auto-organizado como filtro de entrada, se han utilizado los 4 ficheros anteriormente producidos por la implementación en Matlab/Octave. Para automatizar el proceso se ha creado un fichero Java en el cual se define todo el proceso para no tener que hacer uso del entorno gráfico si se quiere repetir las pruebas.
+
+		\subsection{Shell Script}
+
+			\paragraph{}
+			La simulación se puede llevar a cabo ejecutando el fichero shell llamado script.sh, que realiza la ejecución de todas las implementaciones para después poder comparar resultados.
 
 	\section{Resultados}
 
 		\paragraph{}
-		\includegraphics[width=\textwidth]{results}
+		Como se puede ver en la figura \ref{fig:results}, los resultados obtenidos únicamente con el mapa auto-organizado son los peores, a pesar de ello son los que menor coste computacional producen. En segundo lugar en cuanto a tasa de aciertos queda el Perceptrón Multicapa con la implementación en Weka. Cuando se utilizan las dos técnicas en conjunto (utilizando el mapa auto-organizado como filtro para la entrada al perceptrón multicapa el resultado mejora). A pesar de ello, esta es la alternativa que mayor coste computacional produce.
+
+		\begin{figure}[htb]
+			\centering
+			\includegraphics[width=\textwidth]{results}
+			\caption{Resultados de las distintas implementaciones.}
+            \label{fig:results}
+		\end{figure}
 
 
+%-------------------------------------------------------------------------------
+%	Bibliographic references
+%-------------------------------------------------------------------------------
+	\begin{thebibliography}{9}
+
+		\bibitem{wikipedia:som}
+		Wikipedia: Self-organizing map.  \url{https://en.wikipedia.org/wiki/Self-organizing_map}
+
+		\bibitem{wikipedia:mlp}
+		Wikipedia: Multilayer perceptron.  \url{https://en.wikipedia.org/wiki/Multilayer_perceptron}
+
+	\end{thebibliography}
 \end{document}
