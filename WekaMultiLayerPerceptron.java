@@ -76,6 +76,7 @@ public class WekaMultiLayerPerceptron {
 
         data = Filter.useFilter(data, convert);
         data.setClassIndex(data.numAttributes() - 1);
+        data.randomize(new Random());
         return data;
     }
 }

@@ -37,12 +37,10 @@ function selfOrganizingMap(filename ='digitos.entrena.normalizados.txt',
                 temp = SOM_weights(i,:) + ((alphaZero/(1+t/inputLength)) .* input(e,:));
                 SOM_weights(i,:) = temp ./ norm(temp);
             endfor;
-
-
-            if (radius > 0)
-                radius = radius - 1;
-            endif;
         endfor;
+        if (radius > 0)
+            radius = radius - 1;
+        endif;
     endfor;
 
     exportNeuronDistancesToFile('digitos.entrena.normalizados.output.csv', SOM_weights, input, inputLength, expectedOutput)
